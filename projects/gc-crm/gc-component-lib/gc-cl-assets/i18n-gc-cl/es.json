@@ -1,0 +1,38 @@
+{
+  "gc-cl": {
+    "buttons": {
+      "reset-config": "Reestablecer configuración",
+      "search": "Búsqueda",
+      "send-reminders": "Enviar recordatorios"
+    },
+    "labels": {
+      "actions": "Acciones",
+      "more-actions": "Más acciones",
+      "no-records": "Sin registros",
+      "order-columns": "Ordenar columnas",
+      "weight-unit": "Unidad de peso",
+      "currency": "Divisa",
+      "error": "Error",
+      "loading": "Cargando",
+      "show-more": "Ver más",
+      "add-new": "Agregar nuevo",
+      "date": "Fecha",
+      "hour": "Hora",
+      "reason-for-rejection": "Motivo de rechazo"
+    },
+    "titles": {
+      "no-records": "Sin registros",
+      "error": "Listado no disponible",
+      "no-search-results": "Ningún resultado encontrado",
+      "approval-status": "Estado de aprobación"
+    },
+    "status": {
+      "approvals": {
+        "approved": "Aprobado",
+        "rejected": "Rechazado",
+        "notified": "Notificado",
+        "pending": "Pendiente"
+      }
+    }
+  }
+}

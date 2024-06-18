@@ -1,0 +1,126 @@
+.divContainer{
+  font-family: ProximaNova;
+  position: relative;
+}
+.search-input {
+  align-items: center;
+  width: 100%;
+  .title{
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  input {
+    background-color: var(--white);
+    border-radius: 4px;
+    border: solid 1px #ededed;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin: 0;
+    outline: none;
+    padding: 14px 32px 14px 14px;
+    width: 100%;
+    line-height: 16px;
+    font-family: ProximaNova;
+    // resize:none;
+    cursor: pointer;
+    &:focus {
+      border: solid 1px var(--layout-color);
+      background-color: var(--white);
+      cursor: auto;
+    }
+  }
+  .icon {
+    position: absolute;
+    cursor: pointer;
+    i {
+      font-size: 30px;
+    }
+    color: var(--layout-tint-400);
+    top: 50px;
+    transform: translateY(-50%);
+    right: 10px;
+  }
+}
+
+
+.sugestion{
+  border-top: none;
+  border: solid 1px #ededed;
+  box-sizing: border-box;
+  max-height: 400px;
+  overflow-y: scroll;
+  overflow-x: none;
+  width: 100%;
+  .item{
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    font-size: 16px;
+    gap: 15px;
+    padding: 14px 16px 14px 16px;
+    width: 100%;
+    &:hover{
+      background-color: var(--layout-tint-900);
+    }
+
+    &.selected{
+      background-color: var(--layout-tint-900);
+    }
+  }
+}
+
+.multipleSeleted{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  .pointer{
+    cursor: pointer;
+  }
+  span{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 1px 5px 1px 5px;
+    font-size: 12px;
+    border-radius: 10px;
+    background-color: var(--layout-tint-900);
+  }
+}
+
+.sugestion::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.sugestion::-webkit-scrollbar:vertical {
+  width:10px;
+}
+
+.sugestion::-webkit-scrollbar-button:increment,.sugestion::-webkit-scrollbar-button {
+  display: none;
+} 
+
+.sugestion::-webkit-scrollbar:horizontal {
+  display: none;
+  height: 10px;
+}
+
+.sugestion::-webkit-scrollbar-thumb {
+  background-color: var(--layout-tint-400);
+  border-radius: 20px;
+  border: 2px solid #f1f2f3;
+}
+
+.sugestion::-webkit-scrollbar-track {
+  border-radius: 10px;  
+}
+
+.no-results{
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  margin: 10px 0px 10px 0px;
+}

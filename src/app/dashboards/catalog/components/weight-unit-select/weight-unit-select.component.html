@@ -1,0 +1,10 @@
+<gc-cl-weight-unit-select
+  [config]="baseConfig"
+  [required]="true"
+  [weightUnitValueSelected]="weightUnitToSelect"
+  (eventSelectValue)="weightUnitSelected($event)"
+>
+  <ng-template let-params #customRefTemplate
+    >{{ params?.code | titlecase }} - {{ params?.name }}</ng-template
+  >
+</gc-cl-weight-unit-select>

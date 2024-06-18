@@ -1,0 +1,10 @@
+{
+  "gc": {
+    "test": "A língua seleccionada é",
+    "labels": {
+      "custom-text": "Texto personalizado",
+      "custom-description": "Descrição personalizada"
+    },
+    "language": "Idioma"
+  }
+}

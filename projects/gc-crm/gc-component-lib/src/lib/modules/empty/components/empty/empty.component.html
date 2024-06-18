@@ -1,0 +1,26 @@
+<div [gcClWrapperClass]="_config?.app">
+  <div class="empty-container">
+    <img
+      [src]="
+        emptyData?.imageUrl || 'gc-cl-assets/images/empty/empty-default.svg'
+      "
+      class="mt-2 empty-image"
+      [alt]="emptyData?.title"
+    />
+    <h1 class="pt-3 font-weight-bold">
+      {{ emptyData?.title | translate }}
+    </h1>
+    <h4 class="">{{ emptyData?.label | translate }}</h4>
+    <ng-container *ngIf="emptyData?.emitButton">
+      <div class="buttons-container">
+        <button
+          mat-button
+          class="buttons-add gc-button-accent-interaction"
+          (click)="onClick()"
+        >
+          {{ emptyData?.buttonLabel | translate }}
+        </button>
+      </div>
+    </ng-container>
+  </div>
+</div>

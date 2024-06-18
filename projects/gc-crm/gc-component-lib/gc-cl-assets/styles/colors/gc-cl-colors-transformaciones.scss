@@ -1,0 +1,11 @@
+:root {
+  // transformaciones variable colors
+  .transformaciones {
+    --gc-cl-primary-color: #0068ff;
+    --gc-cl-background-color: #f1f4fa;
+    &.dark {
+      --gc-cl-primary-color: #00aaff;
+      --gc-cl-background-color: #242e42;
+    }
+  }
+}

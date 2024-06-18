@@ -1,0 +1,23 @@
+<form [formGroup]="form" autocomplete="off">
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'gc-cl.labels.weight-unit' | translate }}</mat-label>
+    <mat-select formControlName="weightUnit">
+      <mat-option
+        [value]="weightUnit?.slug"
+        [disabled]="!weightUnit.active"
+        *ngFor="let weightUnit of weightUnits"
+      >
+        <ng-container
+          [ngTemplateOutlet]="customRefTemplate || defaultTemplate"
+          [ngTemplateOutletContext]="{
+            $implicit: {
+              name: weightUnit?.names | gcTranslate: _config?.lang,
+              code: weightUnit?.slug
+            }
+          }"
+        ></ng-container>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>
+<ng-template #defaultTemplate let-params>{{ params?.name }}</ng-template>

@@ -1,0 +1,265 @@
+<div [gcClWrapperClass]="_config?.app">
+  <ng-container
+    [ngTemplateOutlet]="layoutTemplate || defaultLayout"
+    [ngTemplateOutletContext]="{
+      $implicit: {
+        searchInput: tableSearchInput,
+        columnOrdering: tableColumnOrdering,
+        extraTools: tableExtraTools,
+        tableAndPaginator: tableAndPaginator
+      }
+    }"
+  ></ng-container>
+</div>
+
+<ng-template #defaultLayout let-param>
+  <div class="row w-100 p-0 mx-0 mb-4">
+    <div class="col-5">
+      <ng-container [ngTemplateOutlet]="param?.searchInput"></ng-container>
+    </div>
+    <div class="col-6 offset-1">
+      <div class="row w-100 p-0 m-0 justify-content-end">
+        <div class="col-auto pe-0">
+          <ng-container
+            [ngTemplateOutlet]="param?.columnOrdering"
+          ></ng-container>
+        </div>
+        <div class="col-auto px-0">
+          <ng-container [ngTemplateOutlet]="param?.extraTools"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row w-100 p-0 m-0">
+    <div class="col">
+      <ng-container
+        [ngTemplateOutlet]="param?.tableAndPaginator"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #tableSearchInput>
+  <gc-cl-search-input
+    *ngIf="
+      searchConfig?.enabled &&
+      TableState.Initializing !== currentTableState &&
+      TableState.Empty !== currentTableState &&
+      TableState.Error !== currentTableState
+    "
+    [searchValue]="searchConfig?.value"
+    [searchSettings]="searchConfig?.settings"
+    (inputChanged)="announceSearchChange($event)"
+  ></gc-cl-search-input>
+</ng-template>
+
+<ng-template #tableColumnOrdering>
+  <gc-cl-list-field-ordering
+    *ngIf="
+      enableColumnOrdering &&
+      TableState.Initializing !== currentTableState &&
+      TableState.Empty !== currentTableState &&
+      TableState.Error !== currentTableState
+    "
+    class="column-ordering"
+    [columns]="columns"
+    [config]="_config"
+    [webStorage]="webStorage"
+    (columnsChanged)="replaceColumns($event)"
+  ></gc-cl-list-field-ordering>
+</ng-template>
+
+<ng-template #tableExtraTools>
+  <ng-container
+    *ngIf="extraToolsTemplate && TableState.Initializing !== currentTableState"
+    [ngTemplateOutlet]="extraToolsTemplate"
+    [ngTemplateOutletContext]="{
+      $implicit: { tableStatus: currentTableState }
+    }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #tableAndPaginator>
+  <ng-container [ngSwitch]="currentTableState">
+    <ng-container
+      *ngSwitchCase="TableState.Initializing"
+      [ngTemplateOutlet]="spinner"
+    >
+    </ng-container>
+    <ng-container
+      *ngSwitchCase="TableState.Loading"
+      [ngTemplateOutlet]="spinner"
+    >
+    </ng-container>
+    <ng-container *ngSwitchCase="TableState.Filled">
+      <div class="table-pagination-wrapper">
+        <div class="list-content">
+          <table
+            mat-table
+            [dataSource]="tableData"
+            class="mat-elevation-z8"
+            matSort
+            (matSortChange)="announceSortChange($event)"
+            matSortDisableClear
+            [matSortActive]="tableSort?.active || ''"
+            [matSortDirection]="tableSort?.direction || ''"
+          >
+            <ng-container
+              matColumnDef="selected"
+              *ngIf="enableItemsCheckbox?.status"
+            >
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox
+                  class="float-right"
+                  (change)="onSelectionToggleAll($event.checked)"
+                  [checked]="isAllPageItemChecked"
+                  [indeterminate]="isIndeterminatePageItemChecked"
+                ></mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-checkbox
+                  class="float-right"
+                  [checked]="
+                    selectedItems
+                      | isValuePropertyInArray : '_id' : element?._id
+                  "
+                  (click)="$event.stopPropagation()"
+                  (change)="$event ? onSelectionToggle(element) : null"
+                ></mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container
+              *ngFor="let col of columns; let i = index"
+              [matColumnDef]="col.key"
+            >
+              <th
+                *matHeaderCellDef
+                [disabled]="!col.sort?.active"
+                [gcClTableColumnMinMaxWidth]="col?.settings"
+                mat-header-cell
+                mat-sort-header
+              >
+                {{ col.labels | gcTranslate : _config?.lang | uppercase }}
+              </th>
+              <td
+                mat-cell
+                [gcClTableColumnMinMaxWidth]="col?.settings"
+                *matCellDef="let element; let i = index"
+              >
+                <gc-cl-table-column-handler
+                  [data]="element"
+                  [column]="col"
+                ></gc-cl-table-column-handler>
+              </td>
+            </ng-container>
+
+            <ng-container
+              matColumnDef="actions"
+              *ngIf="tableConfig?.actions?.length"
+            >
+              <th mat-header-cell *matHeaderCellDef class="actions-column">
+                {{ 'gc-cl.labels.actions' | translate | uppercase }}
+              </th>
+              <td mat-cell *matCellDef="let element" class="actions-column">
+                <gc-cl-table-actions
+                  [config]="_config"
+                  [actions]="tableConfig?.actions || []"
+                  [rowData]="element"
+                  (actionClicked)="announceActionClicked($event)"
+                ></gc-cl-table-actions>
+              </td>
+            </ng-container>
+
+            <tr
+              class="table-header"
+              mat-header-row
+              *matHeaderRowDef="
+                columns
+                  | tableActiveColumnsKey
+                    : enableItemsCheckbox
+                    : !!tableConfig?.actions?.length
+              "
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="
+                let row;
+                columns: columns
+                  | tableActiveColumnsKey
+                    : enableItemsCheckbox
+                    : !!tableConfig?.actions?.length;
+                let i = index
+              "
+              [ngClass]="{
+                clickable: enableClickableRows,
+                highlighted:
+                  enableClickableRows &&
+                  !enableItemsCheckbox?.status &&
+                  selectedRowIndex === row?._id
+              }"
+              (click)="announceRowClicked({ rowIndex: i, data: row }, $event)"
+            ></tr>
+          </table>
+        </div>
+
+        <ng-container
+          *ngIf="paginationConfig?.enabled && paginationConfig?.settings"
+        >
+          <mat-paginator
+            [length]="paginationConfig?.settings.length"
+            [pageSize]="paginationConfig?.settings.pageSize"
+            [pageSizeOptions]="paginationConfig?.settings.pageSizeOptions"
+            [pageIndex]="paginationConfig?.settings.pageIndex - 1"
+            aria-label="Select page"
+            (page)="announcePaginationChange($event)"
+          >
+          </mat-paginator>
+        </ng-container>
+      </div>
+    </ng-container>
+    <ng-container
+      *ngSwitchCase="TableState.Empty"
+      [ngTemplateOutlet]="emptyTemplate || emptyDefault"
+    >
+    </ng-container>
+    <ng-container
+      *ngSwitchCase="TableState.NoMatches"
+      [ngTemplateOutlet]="noMatchesTemplate || emptyNoMatchesDefault"
+    >
+    </ng-container>
+    <ng-container
+      *ngSwitchCase="TableState.Error"
+      [ngTemplateOutlet]="errorTemplate || emptyErrorDefault"
+    >
+    </ng-container>
+    <ng-container *ngSwitchDefault></ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #spinner>
+  <div class="spinner-container">
+    <mat-spinner class="spinner"></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-template #emptyDefault>
+  <gc-cl-empty
+    [config]="_config"
+    [emptyData]="{ title: 'gc-cl.titles.no-records' }"
+  >
+  </gc-cl-empty>
+</ng-template>
+
+<ng-template #emptyNoMatchesDefault>
+  <gc-cl-empty
+    [config]="_config"
+    [emptyData]="{ title: 'gc-cl.titles.no-search-results' }"
+  >
+  </gc-cl-empty>
+</ng-template>
+
+<ng-template #emptyErrorDefault>
+  <gc-cl-empty [config]="_config" [emptyData]="{ title: 'gc-cl.titles.error' }">
+  </gc-cl-empty>
+</ng-template>

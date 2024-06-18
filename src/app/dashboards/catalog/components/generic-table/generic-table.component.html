@@ -1,0 +1,32 @@
+<gc-cl-table
+  [config]="baseConfig"
+  [tableConfig]="tableConfig"
+  [paginationConfig]="paginationConfig"
+  [searchConfig]="searchConfig"
+  [webStorage]="webStorageConfig"
+  [data]="data"
+  [tableSort]="sort"
+  [enableColumnOrdering]="true"
+  [enableClickableRows]="false"
+  [enableItemsCheckbox]="{ status: true, position: 'first' }"
+  [extraToolsTemplate]="tableExtraTools"
+  [isLoading]="isLoading"
+  (sortChanged)="sortChanged($event)"
+  (paginationChanged)="paginationChanged($event)"
+  (searchChanged)="searchValueChanged($event)"
+  (actionClicked)="announceActionClicked($event)"
+  (itemsSelectionChanged)="itemsSelectionChanged($event)"
+>
+</gc-cl-table>
+
+<ng-template #tableExtraTools let-params>
+  <div class="h-100 ps-3 float-right click-button">
+    <button type="button" class="h-100" (click)="onClickToolButton()">
+      Click me!
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #personTypeColumn let-params>
+  {{ params?.dataColumn }}
+</ng-template>

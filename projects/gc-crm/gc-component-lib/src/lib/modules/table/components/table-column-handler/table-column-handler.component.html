@@ -1,0 +1,15 @@
+<ng-container
+  [ngTemplateOutlet]="column?.template || cellDefaultTemplate"
+  [ngTemplateOutletContext]="{
+    $implicit: {
+      dataItem: data,
+      dataColumn:
+        data | dynamicPipeHandler: column?.pipe || '':{ columnKey: column?.key }
+    }
+  }"
+>
+</ng-container>
+
+<ng-template #cellDefaultTemplate let-params>
+  {{ params?.dataColumn }}
+</ng-template>

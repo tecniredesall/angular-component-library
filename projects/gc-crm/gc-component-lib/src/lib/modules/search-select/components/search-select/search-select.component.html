@@ -1,0 +1,77 @@
+<div class="divContainer" (gcClClickOutside)="onBlur()">
+  <div class="search-input">
+    <label class="title">
+      <ng-container [ngTemplateOutlet]="titleTemplate"></ng-container>
+    </label>
+    <span class="icon">
+      <i class="ri-arrow-drop-down-line" (click)="inputFocus()"></i>
+    </span>
+    <input
+      type="text"
+      [placeholder]="placeholder"
+      (focus)="onFocus()"
+      [formControl]="inputSearch"
+      #search
+    />
+  </div>
+  <div class="multipleSeleted p-2" *ngIf="arrItemsSeleted.length > 0">
+    <span
+      class="badge rounded-pill badge-light d-flex align-items-center gap-2"
+      *ngFor="let item of arrItemsSeleted"
+    >
+      <ng-container
+        [ngTemplateOutlet]="textBadgeTemplate"
+        [ngTemplateOutletContext]="{
+          $implicit: item
+        }"
+      ></ng-container>
+      <i class="ri-close-circle-fill pointer" (click)="onSeletedItem(item)"></i>
+    </span>
+  </div>
+  <div class="sugestion" *ngIf="showSugestions">
+    <div *ngIf="!isLoading; else spinner">
+      <div *ngIf="data.length > 0; else empty">
+        <div
+          *ngFor="let item of data"
+          class="item"
+          [ngClass]="{ selected: item.isSelect }"
+          (click)="onSeletedItem(item)"
+        >
+          <input
+            type="checkbox"
+            [id]="item._id"
+            [checked]="item.isSelect"
+            *ngIf="isMultiple"
+          />
+          <ng-container
+            [ngTemplateOutlet]="textOptionTemplate"
+            [ngTemplateOutletContext]="{
+              $implicit: item
+            }"
+          ></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #spinner>
+  <div class="spinner-container no-results">
+    <mat-spinner class="spinner" [diameter]="20"></mat-spinner>
+  </div>
+</ng-template>
+<ng-template #empty>
+  <div class="no-results">
+    <label>
+      {{ 'gc-cl.titles.no-search-results' | translate }}
+    </label>
+  </div>
+</ng-template>
+<p #inputRef style="display: none">
+  <ng-container
+    [ngTemplateOutlet]="textInputTemplate"
+    [ngTemplateOutletContext]="{
+      $implicit: itemsSelected[0]
+    }"
+    *ngIf="!isMultiple"
+  ></ng-container>
+</p>

@@ -1,0 +1,97 @@
+Unit conversion
+<form [formGroup]="form">
+  <mat-form-field color="accent" appearance="fill">
+    <mat-label>Unit type</mat-label>
+    <input
+      matInput
+      formControlName="unit_type"
+      placeholder=""
+      [errorStateMatcher]="errorMatcher"
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <mat-form-field color="accent" appearance="fill">
+    <mat-label>Convert</mat-label>
+    <input
+      matInput
+      formControlName="convert"
+      placeholder=""
+      [errorStateMatcher]="errorMatcher"
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <mat-form-field color="accent" appearance="fill">
+    <mat-label>From</mat-label>
+    <input
+      matInput
+      formControlName="from"
+      placeholder=""
+      [errorStateMatcher]="errorMatcher"
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <mat-form-field color="accent" appearance="fill">
+    <mat-label>To</mat-label>
+    <input
+      matInput
+      formControlName="to"
+      placeholder=""
+      [errorStateMatcher]="errorMatcher"
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <mat-form-field color="accent" appearance="fill">
+    <mat-label>Fraction digits</mat-label>
+    <input
+      matInput
+      formControlName="fraction_digits"
+      placeholder=""
+      [errorStateMatcher]="errorMatcher"
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <mat-form-field color="accent" appearance="fill">
+    <mat-label>Short fraction digits</mat-label>
+    <input
+      matInput
+      formControlName="short_fraction_digits"
+      placeholder=""
+      [errorStateMatcher]="errorMatcher"
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <mat-form-field color="accent" appearance="fill">
+    <mat-label>Adjustment type</mat-label>
+    <input
+      matInput
+      formControlName="adjustment_type"
+      placeholder=""
+      [errorStateMatcher]="errorMatcher"
+      autocomplete="off"
+    />
+  </mat-form-field>
+</form>
+<br />
+<br />
+
+<ng-container *ngIf="conversionData">
+  Pipe with full response:
+  <br />
+  {{
+    conversionData?.value
+      | GCCLConvertValue: conversionData?.settings:baseConfig
+      | async
+      | json
+  }}
+  <br />
+  <br />
+  <br />
+  Pipe with simple response:
+  <br />
+  {{
+    conversionData?.value
+      | GCCLConvertValue: conversionData?.settings:baseConfig:false
+      | async
+      | translate
+  }}
+</ng-container>

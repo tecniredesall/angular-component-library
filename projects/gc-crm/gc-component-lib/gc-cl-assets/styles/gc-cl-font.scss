@@ -1,0 +1,49 @@
+@font-face {
+  font-family: remixicon;
+  src: url('../fonts/remix-icons/remixicon.woff2') format('woff2'),
+    url('../fonts/remix-icons/remixicon.woff') format('woff'),
+    url('../fonts/remix-icons/remixicon.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: ProximaNova;
+  src: local(ProximaNova-Regular),
+    url('../fonts/proxima-nova/Mark\ Simonson\ -\ Proxima\ Nova\ Regular.woff2')
+      format('woff2'),
+    url('../fonts/proxima-nova/Mark\ Simonson\ -\ Proxima\ Nova\ Regular.woff')
+      format('woff'),
+    url('../fonts/proxima-nova/Mark\ Simonson\ -\ Proxima\ Nova\ Regular.ttf')
+      format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+}
+@font-face {
+  font-family: ProximaNova;
+  src: local(ProximaNova-Semibold),
+    url('../fonts/proxima-nova/Mark\ Simonson\ -\ Proxima\ Nova\ Semibold.woff2')
+      format('woff2'),
+    url('../fonts/proxima-nova/Mark\ Simonson\ -\ Proxima\ Nova\ Semibold.woff')
+      format('woff'),
+    url('../fonts/proxima-nova/Mark\ Simonson\ -\ Proxima\ Nova\ Semibold.ttf')
+      format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+}
+@font-face {
+  font-family: ProximaNova;
+  src: local(ProximaNova-Bold),
+    url('../fonts/proxima-nova/Mark\ Simonson\ -\ Proxima\ Nova\ Bold.woff2')
+      format('woff2'),
+    url('../fonts/proxima-nova/Mark\ Simonson\ -\ Proxima\ Nova\ Bold.woff')
+      format('woff'),
+    url('../fonts/proxima-nova/Mark\ Simonson\ -\ Proxima\ Nova\ Bold.ttf')
+      format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+}

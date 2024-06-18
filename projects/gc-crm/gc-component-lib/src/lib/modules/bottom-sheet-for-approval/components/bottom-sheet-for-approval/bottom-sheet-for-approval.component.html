@@ -1,0 +1,143 @@
+<div [gcClWrapperClass]="baseConfig?.app" class="container-fluid">
+  <div class="row" *ngIf="!isLoading; else spinner">
+    <div class="main-container">
+      <h4>
+        {{ 'gc-cl.titles.approval-status' | translate }}
+      </h4>
+      <button mat-icon-button (click)="close($event)" class="close-button">
+        <mat-icon>close</mat-icon>
+      </button>
+      <hr />
+      <ng-container *ngIf="sections.length">
+        <mat-accordion multi>
+          <ng-container *ngFor="let section of sections; let index = index">
+            <mat-expansion-panel
+              hideToggle
+              [disabled]="
+                section?.status === approvalEnum.notified ||
+                section?.status === approvalEnum.pending
+              "
+              #sectionPanel
+              [expanded]="section?.expanded"
+              (opened)="section.expanded = false"
+              (closed)="section.expanded = false"
+            >
+              <mat-expansion-panel-header
+                class="p-0 m-0"
+                [collapsedHeight]="'auto'"
+                [expandedHeight]="'auto'"
+              >
+                <ng-container
+                  [ngTemplateOutlet]="panelHeader"
+                  [ngTemplateOutletContext]="{
+                    panel: sectionPanel,
+                    label: section?.label,
+                    status: section?.status,
+                    counter: section?.counter
+                  }"
+                ></ng-container>
+              </mat-expansion-panel-header>
+              <ng-container
+                [ngTemplateOutlet]="section?.template"
+                [ngTemplateOutletContext]="{
+                  item: section.item
+                }"
+              ></ng-container>
+            </mat-expansion-panel>
+          </ng-container>
+        </mat-accordion>
+        <div class="buttons-container float-right">
+          <button
+            mat-button
+            class="buttons-add gc-button-accent-interaction"
+            (click)="sendNotifications()"
+          >
+            {{ 'gc-cl.buttons.send-reminders' | translate }}
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template
+  #panelHeader
+  let-panel="panel"
+  let-label="label"
+  let-status="status"
+  let-counter="counter"
+>
+  <div class="panel-header row w-100 m-0">
+    <div class="col-8 pl-0 pr-3 pt-1">
+      {{ label }}
+      <span *ngIf="null !== counter"
+        >({{ counter | number : '2.0-0' : 'pt-BR' }})</span
+      >
+    </div>
+    <div class="col-3 pl-0 pr-3 pt-1">
+      <div>
+        <span
+          class="status-mark d-inline-block rounded-circle p-0 mr-2"
+          [ngStyle]="{
+            backgroundColor: approvalStatus[status | uppercase]?.color
+          }"
+        ></span>
+        <span class="status-value">
+          {{ approvalStatus[status | uppercase]?.label | translate }}
+        </span>
+      </div>
+    </div>
+    <div
+      class="col-auto p-0"
+      *ngIf="
+        status === approvalEnum.approved || status === approvalEnum.rejected
+      "
+    >
+      <mat-icon>{{
+        panel?.expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'
+      }}</mat-icon>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #dataSection let-item="item">
+  <div class="row pt-3">
+    <ng-container
+      *ngIf="
+        item.status === approvalEnum.approved ||
+        item.status === approvalEnum.rejected
+      "
+    >
+      <div class="col-6">
+        <p class="data-label">
+          {{ 'gc-cl.labels.date' | translate }}:
+          <span class="data-value">
+            {{ item?.response_at | date : 'dd/MM/yyyy' }}</span
+          >
+        </p>
+      </div>
+      <div class="col-6">
+        <p class="data-label">
+          {{ 'gc-cl.labels.hour' | translate }}:
+          <span class="data-value">
+            {{ item?.response_at | date : 'hh:mm a' }}</span
+          >
+        </p>
+      </div>
+      <div class="col-12 mt-3" *ngIf="item.status === approvalEnum.rejected">
+        <p class="data-label p-0 m-0">
+          {{ 'gc-cl.labels.reason-for-rejection' | translate }}:
+        </p>
+        <p class="text-justify data-value p-0 m-0">
+          {{ item?.notes }}
+        </p>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #spinner>
+  <div class="d-flex justify-content-center p-4">
+    <mat-spinner class="spinner" [diameter]="40"></mat-spinner>
+  </div>
+</ng-template>

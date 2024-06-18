@@ -1,0 +1,11 @@
+<gc-cl-currency-select
+  [config]="baseConfig"
+  [required]="true"
+  [currencyValueSelected]="currencyToSelect"
+  [disabled]="false"
+  (eventSelectValue)="currencySelected($event)"
+>
+  <ng-template let-params #customRefTemplate
+    >{{ params?.name }} - {{ params?.code }}</ng-template
+  >
+</gc-cl-currency-select>

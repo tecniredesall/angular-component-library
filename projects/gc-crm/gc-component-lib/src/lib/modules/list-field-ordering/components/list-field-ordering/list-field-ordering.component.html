@@ -1,0 +1,59 @@
+<div [gcClWrapperClass]="_config?.app">
+  <button
+    class="main-button"
+    mat-button
+    mat-stroked-button
+    [matMenuTriggerFor]="menu"
+    #menuTrigger
+  >
+    <i class="ri-layout-column-line"></i>
+  </button>
+  <mat-menu #menu="matMenu" class="column-menu">
+    <div cdkDropListGroup>
+      <div class="column-menu-container">
+        <div class="column-menu-header">
+          <div class="order-columns-label">
+            <h2>{{ 'gc-cl.labels.order-columns' | translate }}</h2>
+          </div>
+          <div>
+            <button mat-button class="close-button">
+              <i class="ri-close-fill"></i>
+            </button>
+          </div>
+        </div>
+
+        <div
+          cdkDropList
+          [cdkDropListData]="columnsOrdered"
+          class="column-list"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div
+            class="column-box clickable"
+            *ngFor="let item of columnsOrdered"
+            cdkDrag
+          >
+            <mat-checkbox
+              [checked]="item.show === TableColumnShow.Default"
+              (change)="selectUnselect(item.key)"
+              (click)="$event.stopPropagation()"
+              >{{ item.labels | gcTranslate : _config?.lang }}</mat-checkbox
+            >
+            <i class="ri-menu-line"></i>
+          </div>
+        </div>
+        <h2 class="column-menu-footer">
+          <button
+            class="btn-reset-column"
+            mat-button
+            matRipple
+            [matRippleDisabled]="true"
+            (click)="$event.stopPropagation(); resetColumnsConfig()"
+          >
+            {{ 'gc-cl.buttons.reset-config' | translate }}
+          </button>
+        </h2>
+      </div>
+    </div>
+  </mat-menu>
+</div>

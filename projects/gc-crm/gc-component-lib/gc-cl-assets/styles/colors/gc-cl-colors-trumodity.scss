@@ -1,0 +1,35 @@
+:root {
+  // trummodity variable colors
+  .trumodity {
+    --gc-cl-primary-color: #f29e15;
+    --gc-cl-accent-interaction: #00a62dff;
+    --gc-cl-background-color: #f1f4fa;
+    --gc-cl-accent-tint-400: #8c8c95;
+    --gc-cl-warning: #f29e15;
+    --gc-cl-error: #cc1f28;
+    --gc-cl-mid-contrast: #8d8d96;
+    --gc-cl-light-color: #f8f8f9;
+    --gc-cl-card-avatar-color: #f6bb5b;
+    --gc-cl-primary-brand: #f29e15;
+    --gc-cl-high-contrast-lighten: #484857;
+    --gc-cl-low-contrast: #e8e8ea;
+
+
+    .gc-button {
+      border-radius: 8px;
+    }
+    .buttons-add {
+      border-radius: 8px;
+    }
+    .mat-header-cell {
+      color: rgba(0, 0, 0, 0.54);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    &.dark {
+      --gc-cl-primary-color: #242e42;
+      --gc-cl-background-color: #242e42;
+    }
+  }
+}
+

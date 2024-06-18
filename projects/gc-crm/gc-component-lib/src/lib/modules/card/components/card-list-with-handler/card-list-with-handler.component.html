@@ -1,0 +1,211 @@
+<div [gcClWrapperClass]="baseConfig?.app">
+  <gc-cl-infinite-scroll-wrapper
+    class="m-0 w-100"
+    [isShowMoreOptionVisible]="isAllowedLoadMoreItems"
+    (scrollToEnd)="paginationChanged()"
+    (showMoreClicked)="paginationChanged()"
+  >
+    <ng-container
+      [ngTemplateOutlet]="layoutCustomTemplate || layoutDefaultTemplate"
+      [ngTemplateOutletContext]="{
+        $implicit: {
+          searchInputTemplate: searchInputDefaultTemplate,
+          fieldOrderingTemplate: fieldOrderingDefaultTemplate,
+          extraToolsTemplate: extraToolsDefaultTemplate,
+          listItemsTemplate: listItemsDefaultTemplate
+        }
+      }"
+    ></ng-container>
+  </gc-cl-infinite-scroll-wrapper>
+</div>
+
+<ng-template #layoutDefaultTemplate let-param>
+  <div class="row w-100 p-0 mx-0 mb-4">
+    <div class="col-5">
+      <ng-container
+        [ngTemplateOutlet]="param?.searchInputTemplate"
+      ></ng-container>
+    </div>
+    <div class="col-6 offset-1">
+      <div class="row w-100 p-0 m-0 justify-content-end">
+        <div class="col-auto pe-0">
+          <ng-container
+            [ngTemplateOutlet]="param?.fieldOrderingTemplate"
+          ></ng-container>
+        </div>
+        <div class="col-auto px-0">
+          <ng-container
+            [ngTemplateOutlet]="param?.extraToolsTemplate"
+          ></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row w-100 p-0 m-0">
+    <ng-container [ngTemplateOutlet]="param?.listItemsTemplate"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #searchInputDefaultTemplate>
+  <gc-cl-search-input
+    *ngIf="
+      configuration?.search?.enabled &&
+      ListState.Initializing !== currentListState &&
+      ListState.Empty !== currentListState &&
+      ListState.Error !== currentListState
+    "
+    [searchValue]="configuration?.search?.value"
+    [searchSettings]="configuration?.search?.settings"
+    (inputChanged)="searchValueChanged($event)"
+  ></gc-cl-search-input>
+</ng-template>
+
+<ng-template #fieldOrderingDefaultTemplate>
+  <gc-cl-list-field-ordering
+    *ngIf="
+      configuration?.enableFieldsOrdering &&
+      ListState.Initializing !== currentListState &&
+      ListState.Empty !== currentListState &&
+      ListState.Error !== currentListState
+    "
+    class="column-ordering"
+    [columns]="fields"
+    [config]="baseConfig"
+    (columnsChanged)="replaceFields($event)"
+  ></gc-cl-list-field-ordering>
+</ng-template>
+
+<ng-template #extraToolsDefaultTemplate>
+  <ng-container
+    *ngIf="
+      extraToolsCustomTemplate && ListState.Initializing !== currentListState
+    "
+    [ngTemplateOutlet]="extraToolsCustomTemplate"
+    [ngTemplateOutletContext]="{
+      $implicit: { listStatus: currentListState }
+    }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #listItemsDefaultTemplate>
+  <ng-container
+    *ngIf="ListState.Initializing === currentListState"
+    [ngTemplateOutlet]="spinnerDefaultTemplate"
+  >
+  </ng-container>
+  <ng-container
+    *ngIf="
+      ListState.Filled === currentListState ||
+      ListState.Loading === currentListState
+    "
+  >
+    <div class="row m-0 p-0 w-100">
+      <ng-container
+        *ngIf="ListState.Loading !== currentListState && addActionData"
+        [ngTemplateOutlet]="cardAddNewDefaultTemplate"
+      ></ng-container>
+      <div
+        *ngFor="let data of listData || []"
+        [ngClass]="
+          configuration?.styleClasses?.cardContainer
+            ? configuration?.styleClasses?.cardContainer
+            : 'col-6 p-2'
+        "
+      >
+        <gc-cl-card
+          [cardConfig]="configuration?.card"
+          [baseConfig]="baseConfig"
+          [data]="data"
+          [isSelectable]="configuration?.cardSelection?.enabled"
+          [isSelected]="
+            selectedItems | isValuePropertyInArray: '_id':data['_id']
+          "
+          [isDisabled]="
+            configuration?.disabledItems?.values || []
+              | isValuePropertyInArray
+                : configuration?.disabledItems?.property
+                : data[configuration?.disabledItems?.property]
+          "
+          (toggleItem)="onToggleItem($event)"
+          (actionClicked)="onActionClicked($event)"
+        ></gc-cl-card>
+      </div>
+    </div>
+    <div
+      *ngIf="ListState.Loading === currentListState"
+      class="row m-0 p-0 w-100 d-flex justify-content-center align-content-center"
+    >
+      <ng-container [ngTemplateOutlet]="spinnerDefaultTemplate"> </ng-container>
+    </div>
+  </ng-container>
+  <ng-container
+    *ngIf="ListState.Empty === currentListState"
+    [ngTemplateOutlet]="
+      addActionData
+        ? cardAddNewDefaultTemplate
+        : emptyCustomTemplate || emptyDefaultTemplate
+    "
+  >
+  </ng-container>
+  <ng-container
+    *ngIf="ListState.NoMatches === currentListState"
+    [ngTemplateOutlet]="noMatchesCustomTemplate || noMatchesDefaultTemplate"
+  >
+  </ng-container>
+  <ng-container
+    *ngIf="ListState.Error === currentListState"
+    [ngTemplateOutlet]="errorCustomTemplate || errorDefaultTemplate"
+  >
+  </ng-container>
+</ng-template>
+
+<ng-template #spinnerDefaultTemplate>
+  <div class="spinner-container">
+    <mat-spinner class="spinner"></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-template #emptyDefaultTemplate>
+  <gc-cl-empty
+    [config]="baseConfig"
+    [emptyData]="{ title: 'gc-cl.titles.no-records' }"
+  >
+  </gc-cl-empty>
+</ng-template>
+
+<ng-template #noMatchesDefaultTemplate>
+  <gc-cl-empty
+    [config]="baseConfig"
+    [emptyData]="{ title: 'gc-cl.titles.no-search-results' }"
+  >
+  </gc-cl-empty>
+</ng-template>
+
+<ng-template #errorDefaultTemplate>
+  <gc-cl-empty
+    [config]="baseConfig"
+    [emptyData]="{ title: 'gc-cl.titles.error' }"
+  >
+  </gc-cl-empty>
+</ng-template>
+
+<ng-template #cardAddNewDefaultTemplate>
+  <div
+    [ngClass]="
+      configuration?.styleClasses?.cardContainer
+        ? configuration?.styleClasses?.cardContainer
+        : 'col-6 p-2'
+    "
+  >
+    <div
+      class="card-new-item w-100 h-100 m-0 p-3 text-break d-flex justify-content-center align-items-center"
+      (click)="onAddNewItem()"
+    >
+      <div class="col-12 p-0 m-0 text-center description avoid-select">
+        <i [ngClass]="addActionData?.icon?.name_web"></i>
+        <br />
+        {{ addActionData?.label || {} | gcTranslate: baseConfig?.lang }}
+      </div>
+    </div>
+  </div>
+</ng-template>

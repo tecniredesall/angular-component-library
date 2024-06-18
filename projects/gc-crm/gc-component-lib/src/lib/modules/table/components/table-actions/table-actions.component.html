@@ -1,0 +1,58 @@
+<div [gcClWrapperClass]="_config?.app">
+  <ng-container>
+    <button
+      mat-icon-button
+      class="button-icon"
+      *ngIf="hasMenuActions"
+      [matMenuTriggerFor]="menu"
+      [matTooltip]="'gc-cl.labels.more-actions' | translate"
+    >
+      <i class="ri-more-2-fill"></i>
+    </button>
+    <mat-menu #menu="matMenu">
+      <ng-container *ngFor="let action of tableActions">
+        <button
+          mat-menu-item
+          *ngIf="action.menu"
+          [ngStyle]="action.style"
+          (click)="announceActionClicked(action, rowData)"
+        >
+          <i class="menu-action-icon" [ngClass]="action.icon.name_web"></i>
+          <span class="menu-action-label">
+            {{ action.label | gcTranslate: _config.lang }}
+          </span>
+        </button>
+      </ng-container>
+    </mat-menu>
+
+    <ng-container *ngFor="let action of tableActions; let isLast = last">
+      <button
+        mat-icon-button
+        class="button-icon"
+        [ngClass]="isLast ? 'ms-0' : 'ms-3'"
+        *ngIf="!action.menu && !action?.simple"
+        [matTooltip]="action.label | gcTranslate: _config.lang"
+        [ngStyle]="action.style"
+        gcClRowAction
+        [conditions]="action.conditions!"
+        [rowData]="rowData"
+        (click)="announceActionClicked(action, rowData)"
+      >
+        <i [ngClass]="action.icon.name_web"></i>
+      </button>
+      <button
+        mat-button
+        class="buttons-add btn-add-group gc-button-outline-accent-interaction"
+        *ngIf="!action.menu && action?.simple"
+        [matTooltip]="action.label | gcTranslate: _config.lang"
+        [ngStyle]="action.style"
+        gcClRowAction
+        [conditions]="action.conditions!"
+        [rowData]="rowData"
+        (click)="announceActionClicked(action, rowData)"
+      >
+        {{ action.label | gcTranslate: _config.lang }}
+      </button>
+    </ng-container>
+  </ng-container>
+</div>

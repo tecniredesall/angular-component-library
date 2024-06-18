@@ -1,0 +1,8 @@
+@import "projects/gc-crm/gc-component-lib/gc-cl-assets/gc-cl-styles.scss";
+
+.show-more,
+.show-more:hover {
+  color: var(--gc-cl-accent-interaction);
+  font-weight: bold;
+  font-size: 16px;
+}

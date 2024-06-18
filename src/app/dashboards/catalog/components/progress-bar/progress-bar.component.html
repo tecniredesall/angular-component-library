@@ -1,0 +1,17 @@
+<div style="width: 500px">
+  <gc-cl-progress-bar
+    [valuePercent]="calcPercent()"
+    [description]="'Monto pagado'"
+    [mainBarDescription]="'Monto total'"
+  >
+    <ng-template #titleTemplate>
+      {{ value }}
+      /
+      {{ total }}
+    </ng-template>
+  </gc-cl-progress-bar>
+  <div>
+    <button (click)="sum()">+</button>
+    <button (click)="rest()">-</button>
+  </div>
+</div>

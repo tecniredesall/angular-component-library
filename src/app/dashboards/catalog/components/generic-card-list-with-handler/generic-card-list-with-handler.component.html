@@ -1,0 +1,63 @@
+<gc-cl-card-list-with-handler
+  [configuration]="configuration"
+  (actionClicked)="onActionClicked($event)"
+  (itemsSelectionChanged)="onItemsSelectionChanged($event)"
+>
+  <ng-template #layoutCustomTemplate let-param>
+    <div class="row w-100 px-2 mx-0 mb-3">
+      <div class="col-8 pb-4">
+        <div class="row w-100 px-0 m-0 justify-content-end">
+          <div class="col-auto pe-0">
+            <ng-container
+              [ngTemplateOutlet]="param?.fieldOrderingTemplate"
+            ></ng-container>
+          </div>
+          <div class="col-auto px-0">
+            <ng-container
+              [ngTemplateOutlet]="param?.extraToolsTemplate"
+            ></ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 pb-4">
+        <ng-container
+          [ngTemplateOutlet]="param?.searchInputTemplate"
+        ></ng-container>
+      </div>
+    </div>
+    <div class="row w-100 p-0 m-0">
+      <ng-container
+        [ngTemplateOutlet]="param?.listItemsTemplate"
+      ></ng-container>
+    </div>
+  </ng-template>
+
+  <ng-template #extraToolsCustomTemplate>
+    <button (click)="onClickRefreshList()">Refresh</button>
+  </ng-template>
+
+  <ng-template #emptyCustomTemplate>
+    <gc-cl-empty
+      [config]="configuration?.base"
+      [emptyData]="emptyDataCustom"
+      (clicked)="onEmptyClickAction()"
+    >
+    </gc-cl-empty>
+  </ng-template>
+</gc-cl-card-list-with-handler>
+
+<ng-template #fullNameCustomColumn let-params>
+  <strong>
+    {{ params?.dataItem?.first_name }}
+    {{ params?.dataItem?.last_name }}
+  </strong>
+</ng-template>
+
+<ng-template #emailCustomColumn let-params>
+  {{ params?.dataItem?.emails[0]?.value }}
+</ng-template>
+
+<ng-template #phoneNumberCustomColumn let-params>
+  {{ params?.dataItem?.phones[0]?.calling_code }}
+  {{ params?.dataItem?.phones[0]?.phone_number }}
+</ng-template>

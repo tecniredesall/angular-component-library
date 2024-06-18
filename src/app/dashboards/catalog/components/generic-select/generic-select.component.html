@@ -1,0 +1,21 @@
+<div style="width: 500px">
+  <gc-cl-search-select
+    *ngIf="data.length > 0"
+    [propertyID]="'_id'"
+    [propertySearch]="'names.es'"
+    [data]="data"
+    placeholder="Seleccione una commodity"
+    (itemsSelected)="itemsSelected($event)"
+  >
+    <ng-template #titleTemplate>Commodity</ng-template>
+    <ng-template #textInputTemplate let-commodity>{{
+      commodity?.names.es
+    }}</ng-template>
+    <ng-template let-commodity #textBadgeTemplate>{{
+      commodity.names.es
+    }}</ng-template>
+    <ng-template let-commodity #textOptionTemplate>{{
+      commodity.names.es
+    }}</ng-template>
+  </gc-cl-search-select>
+</div>

@@ -1,0 +1,26 @@
+@import "projects/gc-crm/gc-component-lib/gc-cl-assets/gc-cl-styles.scss";
+
+.empty-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 0 2em 0;
+  margin: 0;
+}
+
+.buttons-add {
+  width: auto;
+  height: 48px;
+  margin-bottom: 10px;
+  min-width: 240px;
+  white-space: nowrap;
+}
+
+.buttons-container {
+  display: inline-block;
+}
+
+.empty-image {
+  max-width: 100%;
+}

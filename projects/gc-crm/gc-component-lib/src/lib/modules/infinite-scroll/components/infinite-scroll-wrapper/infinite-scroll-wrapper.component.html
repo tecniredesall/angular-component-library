@@ -1,0 +1,13 @@
+<ng-content></ng-content>
+<div
+  *ngIf="isShowMoreOptionVisible"
+  class="row w-100 m-0 d-flex justify-content-center align-items-center pt-3"
+>
+  <a
+    class="show-more w-auto clickable avoid-select"
+    (click)="onShowMoreClicked()"
+  >
+    {{ 'gc-cl.labels.show-more' | translate }}
+  </a>
+</div>
+<div #anchor></div>

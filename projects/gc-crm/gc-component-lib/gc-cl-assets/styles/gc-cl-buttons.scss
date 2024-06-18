@@ -1,0 +1,129 @@
+@import './gc-cl-breakpoints.scss';
+@mixin buttonStyle() {
+  height: 48px;
+  padding: 14px 16px;
+  border-radius: 2px;
+  outline: none;
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: 0.32px;
+  text-align: center;
+  color: var(--white);
+  border: none;
+}
+
+@mixin buttonIcon() {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  i {
+    font-size: 20px;
+  }
+}
+
+@mixin accentInteraction() {
+  @include buttonStyle();
+  background-color: var(--gc-cl-accent-interaction);
+  border-color: var(--gc-cl-accent-interaction);
+  width: 100%;
+  color: var(--white);
+
+  @include applyMin(md) {
+    width: 256px;
+  }
+}
+
+@mixin outlineAccentInteraction() {
+  @include buttonStyle();
+  background-color: transparent;
+  border: 1px solid var(--gc-cl-accent-interaction);
+  color: var(--gc-cl-accent-interaction);
+
+  &:hover {
+    background-color: var(--accent-tint-900);
+  }
+
+  &:active {
+    background-color: var(--accent-tint-800);
+  }
+
+  &:disabled,
+  &:disabled {
+    background-color: var(--white);
+    pointer-events: none;
+    color: var(--disabled);
+    border-color: var(--disabled);
+  }
+  @include applyMin(md) {
+    width: 256px;
+  }
+}
+
+.gc-button {
+  @include buttonStyle();
+
+  &.gc-button-block {
+    width: 100%;
+  }
+
+  &.gc-button-small {
+    height: 36px;
+    font-size: 14px;
+    padding: 10px 16px;
+    line-height: 16px;
+  }
+
+  &-accent-interaction {
+    @include accentInteraction();
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: var(--disabled);
+    border-color: var(--disabled);
+    color: var(--disabled-shade-400);
+  }
+
+  &-outline-accent-interaction {
+    @include outlineAccentInteraction();
+  }
+
+  &-outline-layout-tint-200 {
+    border: solid 1px var(--layout-tint-200);
+    background-color: var(--white);
+    color: var(--layout-tint-200);
+    @include applyMin(md) {
+      width: 256px;
+    }
+  }
+}
+
+.gc-button-icon {
+  @include buttonIcon();
+}
+.gc-link {
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  text-align: center;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+
+  &.gc-error {
+    color: var(--gc-cl-error);
+  }
+
+  .gc-icon {
+    margin-right: 8px;
+    font-size: 20px;
+  }
+}

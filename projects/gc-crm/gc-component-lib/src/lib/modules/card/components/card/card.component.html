@@ -1,0 +1,118 @@
+<div [gcClWrapperClass]="baseConfig?.app" class="h-100">
+  <div
+    class="card-item p-4 h-100"
+    [ngClass]="{
+      'not-allowed': isDisabled,
+      clickable: isSelectable && !isDisabled,
+      selected: isSelected
+    }"
+    (click)="onClickItem()"
+  >
+    <div class="container-fluid p-0">
+      <div *ngIf="headers?.length" class="row align-items-center">
+        <div class="col-auto pe-0">
+          <div *ngIf="avatar" class="avatar">
+            <i class="{{ avatar?.settings?.icon }}"></i>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="row">
+            <div
+              *ngFor="let header of headers || []"
+              [ngClass]="header?.settings?.width || 'col-12'"
+              class="text-break pb-1 data-value"
+            >
+              <ng-container
+                [ngTemplateOutlet]="
+                  header?.template || fieldHeaderDefaultTemplate
+                "
+                [ngTemplateOutletContext]="{
+                  $implicit: {
+                    dataItem: data,
+                    dataField: data[header?.key] || '--',
+                    configItem: header,
+                    configCard: cardConfig
+                  }
+                }"
+              >
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="isSelected" class="col-auto text-right pe-0">
+          <i class="ri-checkbox-fill"></i>
+        </div>
+
+        <ng-container>
+          <div
+            *ngIf="actions.length && !isDisabled"
+            class="col-auto text-right clickable p-0"
+          >
+            <button
+              mat-button
+              class="options-button p-0 text-right"
+              [matMenuTriggerFor]="cardMenu"
+              (click)="$event.stopPropagation()"
+            >
+              <i class="ri-more-2-line"></i>
+            </button>
+            <mat-menu #cardMenu="matMenu" xPosition="before">
+              <ng-container *ngFor="let action of actions">
+                <button mat-menu-item (click)="onClickAction(action)">
+                  <i class="{{ action?.icon?.name_web }} icon-menu"></i>
+                  <span>{{
+                    action?.label | gcTranslate: baseConfig?.lang
+                  }}</span>
+                </button>
+              </ng-container>
+            </mat-menu>
+          </div>
+        </ng-container>
+      </div>
+      <div *ngIf="headers.length" class="w-100 p-0 m-0">
+        <div class="line w-100"></div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div
+              *ngFor="let item of body || []; last"
+              [ngClass]="item?.settings?.width || 'col-12'"
+              class="text-break pt-3"
+            >
+              <div class="row w-100 px-0 m-0 pb-1 data-label">
+                {{ item?.labels | gcTranslate: baseConfig?.lang }}
+              </div>
+              <div class="row w-100 p-0 m-0 data-value">
+                <ng-container
+                  [ngTemplateOutlet]="
+                    item?.template || fieldBodyDefaultTemplate
+                  "
+                  [ngTemplateOutletContext]="{
+                    $implicit: {
+                      dataItem: data,
+                      dataField: data[item?.key] || '--',
+                      configItem: item,
+                      configCard: cardConfig
+                    }
+                  }"
+                >
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #fieldHeaderDefaultTemplate let-params>
+  {{ params?.dataField }}
+</ng-template>
+
+<ng-template #fieldBodyDefaultTemplate let-params>
+  {{ params?.dataField }}
+</ng-template>

@@ -1,0 +1,38 @@
+{
+  "gc-cl": {
+    "buttons": {
+      "reset-config": "Reset settings",
+      "search": "Search",
+      "send-reminders": "Send reminders"
+    },
+    "labels": {
+      "actions": "Actions",
+      "more-actions": "More actions",
+      "no-records": "No records",
+      "order-columns": "Sort columns",
+      "weight-unit": "Weight unit",
+      "currency": "Currency",
+      "error": "Error",
+      "loading": "Loading",
+      "show-more": "Show more",
+      "add-new": "Add new",
+      "date": "Date",
+      "hour": "Hour",
+      "reason-for-rejection": "Reason for rejection"
+    },
+    "titles": {
+      "no-records": "No records",
+      "error": "Listing not available",
+      "no-search-results": "No results found",
+      "approval-status": "Approval status"
+    },
+    "status": {
+      "approvals": {
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "notified": "Notified",
+        "pending": "Pending"
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+<form [formGroup]="form" autocomplete="off">
+  <mat-form-field appearance="fill">
+    <mat-label>{{ label || ('gc-cl.labels.currency' | translate) }}</mat-label>
+    <mat-select formControlName="currency">
+      <mat-option
+        [value]="currency?.slug"
+        [disabled]="!currency.active"
+        *ngFor="let currency of currencies"
+      >
+        <ng-container
+          [ngTemplateOutlet]="customRefTemplate || defaultTemplate"
+          [ngTemplateOutletContext]="{
+            $implicit: {
+              name: currency?.names | gcTranslate: _config?.lang,
+              code: currency?.slug
+            }
+          }"
+        ></ng-container>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>
+<ng-template #defaultTemplate let-params>
+  {{ 0 | currency: params?.code:'code':'1.0' | slice: 0:-1 }}
+  {{ 0 | currency: params?.code:'symbol':'1.0' | slice: 0:-1 }}
+</ng-template>

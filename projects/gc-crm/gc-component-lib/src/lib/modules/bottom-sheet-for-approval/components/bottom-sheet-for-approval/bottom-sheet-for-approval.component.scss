@@ -1,0 +1,65 @@
+.close-button{
+    position: absolute;
+    top: 8px;
+    right: 28px;
+}
+    
+.main-container {
+    background-color: #FFF;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px 0 rgba(183, 183, 183, 0.16);
+    padding: 8px 28px 16px 28px;
+    max-width: min(80vw, 764px);
+
+    .mat-expansion-panel{
+        box-shadow: none !important;
+        margin-bottom: 16px;
+    }
+
+    .mat-expansion-panel-header:hover {
+        background-color:transparent
+    }
+
+    .panel-header{
+        background-color: #f8f8f9;
+        padding: 8px 12px;
+        color: #1a1a2d;
+        line-height: 1.4;      
+    }
+
+    .data {
+        &-label {
+          font-size: 12px;
+          color: var(--gc-cl-mid-contrast);
+        }
+    
+        &-value {
+          font-size: 16px;
+          color: var(--gc-cl-high-contrast-lighten);
+        }
+      }
+      
+    .buttons-container {
+        display: inline-block;
+
+        .buttons-add {
+            width: auto;
+            height: 48px;
+            margin-bottom: 10px;
+            min-width: 240px;
+            white-space: nowrap;
+          }
+    }
+
+    .status{
+        &-mark{
+            width: 8px;
+            height: 8px;
+        };
+        &-value{
+            font-size: 14px;
+            color:#1a1a2d;
+        }        
+    }   
+      
+}

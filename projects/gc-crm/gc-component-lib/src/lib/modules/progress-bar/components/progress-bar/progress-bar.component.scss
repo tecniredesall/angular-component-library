@@ -1,0 +1,57 @@
+
+.progress{
+  display: flex;
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  color: #d1d1d5;
+  div{
+    position: absolute;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    transition: all 0.5s ease-out;
+  }
+}
+
+.title{
+  display: flex;
+  justify-content: flex-end;
+  span{
+    font-family: Inter-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.71;
+    letter-spacing: normal;
+    text-align: right;
+    color: #484857;
+  }
+}
+.elipse{
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+  background-color: var(--success-shade-200);
+}
+
+.bar-label{
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-family: Inter-Regular;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  // line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #1a1a2d;
+}
+.container-labels{
+  display: flex;
+  gap: 30px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}

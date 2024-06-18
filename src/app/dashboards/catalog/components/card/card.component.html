@@ -1,0 +1,33 @@
+<div class="gc-cl">
+  <div class="row m-0 p-0 w-100">
+    <div class="col-4" *ngIf="baseConfig && cardConfig">
+      <gc-cl-card
+        [cardConfig]="cardConfig"
+        [baseConfig]="baseConfig"
+        [data]="data"
+        [isSelectable]="isSelectable"
+        [isSelected]="isSelected"
+        [isDisabled]="isDisabled"
+        (toggleItem)="onToggleItem($event)"
+        (actionClicked)="onActionClicked($event)"
+      >
+      </gc-cl-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #fullNameCustomColumn let-params>
+  <strong>
+    {{ params?.dataItem?.first_name }}
+    {{ params?.dataItem?.last_name }}
+  </strong>
+</ng-template>
+
+<ng-template #emailCustomColumn let-params>
+  {{ params?.dataItem?.emails[0]?.value }}
+</ng-template>
+
+<ng-template #phoneNumberCustomColumn let-params>
+  {{ params?.dataItem?.phones[0]?.calling_code }}
+  {{ params?.dataItem?.phones[0]?.phone_number }}
+</ng-template>

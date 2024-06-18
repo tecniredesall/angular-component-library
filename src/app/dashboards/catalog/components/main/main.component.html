@@ -1,0 +1,33 @@
+<div class="sidenav">
+  <div class="wrapper">
+    <h2>Generic components</h2>
+    <a [routerLink]="['/example']">Example</a>
+    <a [routerLink]="['/generic-table']">Generic table</a>
+    <a [routerLink]="['/generic-table-with-handler']"
+      >Generic table with handler</a
+    >
+    <a [routerLink]="['/empty']">Empty</a>
+    <a [routerLink]="['/weight-unit-select']">Weight unit select</a>
+    <a [routerLink]="['/currency-select']">Currency select</a>
+    <a [routerLink]="['/convert-value-pipe']">Convert value pipe</a>
+    <a [routerLink]="['/quantity-mask']">Quantity Mask</a>
+    <a [routerLink]="['/generic-select']">Generic Select</a>
+    <a [routerLink]="['/card']">Card</a>
+    <a [routerLink]="['/list-card']">List Card</a>
+    <a [routerLink]="['/progress-bar']">Progress Bar</a>
+    <a [routerLink]="['/bottom-sheet-for-approval']"
+      >Bottom Sheet For Approval</a
+    >
+  </div>
+</div>
+
+<div class="main">
+  <div class="wrapper">
+    <div class="language-container">
+      <app-language-selector></app-language-selector>
+    </div>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div>
+  <div class="title">
+    <span>
+      <ng-container [ngTemplateOutlet]="titleTemplate"></ng-container>
+    </span>
+  </div>
+  <div class="progress" [style]="setStyles(mainBar)">
+    <ng-container *ngIf="!isMultibar; else multipleTemplate">
+      <ng-container
+        [ngTemplateOutlet]="barTemplate"
+        [ngTemplateOutletContext]="{ bar: bar }"
+      ></ng-container>
+    </ng-container>
+  </div>
+  <div class="container-labels">
+    <ng-container
+      *ngIf="!isMultibar"
+      [ngTemplateOutlet]="labelBar"
+      [ngTemplateOutletContext]="{ bar: bar }"
+    ></ng-container>
+    <ng-container *ngIf="isMultibar">
+      <ng-container
+        *ngFor="let bar of bars"
+        [ngTemplateOutlet]="labelBar"
+        [ngTemplateOutletContext]="{ bar: bar }"
+      ></ng-container>
+    </ng-container>
+    <ng-container
+      *ngIf="mainBarDescription"
+      [ngTemplateOutlet]="labelBar"
+      [ngTemplateOutletContext]="{ bar: mainBar }"
+    ></ng-container>
+  </div>
+</div>
+
+<ng-template #multipleTemplate>
+  <ng-container *ngIf="bars.length > 0">
+    <ng-container *ngFor="let bar of bars">
+      <ng-container
+        [ngTemplateOutlet]="barTemplate"
+        [ngTemplateOutletContext]="{ bar: bar }"
+      ></ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #barTemplate let-bar="bar">
+  <div
+    [style]="setStyles(bar)"
+    [style.border-top-right-radius]="bar.valuePercent === 100 ? '10px' : 0"
+    [style.border-bottom-right-radius]="bar.valuePercent === 100 ? '10px' : 0"
+  ></div>
+</ng-template>
+
+<ng-template #labelBar let-bar="bar">
+  <div class="bar-label">
+    <div class="elipse" [style.background-color]="bar.color"></div>
+    <ng-container
+      [ngTemplateOutlet]="descriptionTemplate || defaultTemplate"
+      [ngTemplateOutletContext]="{ bar: bar }"
+    ></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #defaultTemplate let-bar="bar">
+  <label>{{ bar.description }}</label>
+</ng-template>

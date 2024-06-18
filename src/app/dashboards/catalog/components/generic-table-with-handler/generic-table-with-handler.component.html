@@ -1,0 +1,57 @@
+<gc-cl-table-with-handler
+  [configuration]="configuration"
+  (itemsSelectionChanged)="onItemsSelectionChanged($event)"
+>
+</gc-cl-table-with-handler>
+
+<ng-template #tableLayout let-param>
+  <div class="row w-100 p-0 mx-0 mb-3">
+    <div class="col-12 pb-4">
+      <ng-container [ngTemplateOutlet]="param?.searchInput"></ng-container>
+    </div>
+    <div class="col-12">
+      <div class="row w-100 p-0 m-0 justify-content-end">
+        <div class="col-auto pe-0">
+          <ng-container
+            [ngTemplateOutlet]="param?.columnOrdering"
+          ></ng-container>
+        </div>
+        <div class="col-auto px-0">
+          <ng-container [ngTemplateOutlet]="param?.extraTools"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row w-100 p-0 m-0">
+    <div class="col">
+      <ng-container
+        [ngTemplateOutlet]="param?.tableAndPaginator"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #tableExtraTools let-params>
+  <div class="h-100 ps-3 float-right click-button">
+    <button
+      type="button"
+      class="buttons-add gc-button-accent-interaction float-right"
+      (click)="onClickToolButton()"
+    >
+      Action
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #emptyTable>
+  <gc-cl-empty
+    [config]="configuration?.base"
+    [emptyData]="emptyDataCustom"
+    (clicked)="onEmptyClickAction()"
+  >
+  </gc-cl-empty>
+</ng-template>
+
+<ng-template #personTypeColumn let-params>
+  * {{ params?.dataColumn }} *
+</ng-template>

@@ -1,0 +1,21 @@
+.gc-cl-example-test {
+  font-weight: bold;
+  color: var(--gc-cl-primary-color);
+  padding: 24px;
+  font-size: 24px;
+
+  .logo {
+    background-color: var(--gc-cl-primary-color);
+    border-radius: 50%;
+    width: 84px;
+    height: 84px;
+    padding: 4px;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+
+    img {
+      width: 100%;
+    }
+  }
+}
